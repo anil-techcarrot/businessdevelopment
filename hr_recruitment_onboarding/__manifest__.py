@@ -48,7 +48,7 @@
             'hr_recruitment_onboarding/static/src/css/portal.css',
         ],
     },
-    'images' : ['static/description/hr_recruitment_banner.png'],
+    'images': ['static/description/banner.png'],
     'installable': True,
     'auto_install': False,
     'application': True,
