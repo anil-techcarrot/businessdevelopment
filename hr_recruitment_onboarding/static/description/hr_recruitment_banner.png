@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="280" viewBox="0 0 680 280">
+  <rect width="680" height="280" rx="20" fill="#0F2744"/>
+  <circle cx="580" cy="40" r="120" fill="#152E52" opacity="0.8"/>
+  <circle cx="640" cy="240" r="80" fill="#152E52" opacity="0.6"/>
+  <circle cx="40" cy="240" r="60" fill="#152E52" opacity="0.4"/>
+  <g transform="translate(40,60)">
+    <rect width="160" height="160" rx="32" fill="#152E52"/>
+    <circle cx="80" cy="52" r="28" fill="#1A6FBF"/>
+    <circle cx="80" cy="52" r="20" fill="#2387E8"/>
+    <circle cx="80" cy="52" r="12" fill="white"/>
+    <path d="M34 104 Q80 82 126 104 L134 200 Q80 216 26 200 Z" fill="#1A6FBF"/>
+    <path d="M44 110 Q80 92 116 110 L122 192 Q80 206 38 192 Z" fill="#2387E8"/>
+    <rect x="44" y="132" width="72" height="7" rx="3" fill="white" opacity="0.9"/>
+    <rect x="50" y="148" width="60" height="7" rx="3" fill="white" opacity="0.6"/>
+    <circle cx="136" cy="28" r="22" fill="#1A6FBF"/>
+    <circle cx="136" cy="28" r="16" fill="#2387E8"/>
+    <line x1="136" y1="16" x2="136" y2="22" stroke="white" stroke-width="3" stroke-linecap="round"/>
+    <line x1="136" y1="34" x2="136" y2="40" stroke="white" stroke-width="3" stroke-linecap="round"/>
+    <line x1="124" y1="28" x2="130" y2="28" stroke="white" stroke-width="3" stroke-linecap="round"/>
+    <line x1="142" y1="28" x2="148" y2="28" stroke="white" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="24" cy="136" r="22" fill="#1A6FBF"/>
+    <circle cx="24" cy="136" r="16" fill="#27AE60"/>
+    <polyline points="14,136 22,144 36,126" fill="none" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <text x="228" y="100" font-family="Arial,sans-serif" font-size="28" font-weight="bold" fill="white">HR Recruitment</text>
+  <text x="228" y="134" font-family="Arial,sans-serif" font-size="28" font-weight="bold" fill="#2387E8">&amp; Onboarding Pro</text>
+  <text x="228" y="162" font-family="Arial,sans-serif" font-size="13" fill="#7BAFD4">Odoo 18 &amp; 19  |  TechCarrot</text>
+  <rect x="228" y="178" width="1" height="60" fill="#1A6FBF" opacity="0.4"/>
+  <circle cx="235" cy="196" r="4" fill="#2387E8"/>
+  <text x="246" y="200" font-family="Arial,sans-serif" font-size="13" fill="#7BAFD4">AI candidate scoring (Groq / Gemini / Ollama)</text>
+  <circle cx="235" cy="218" r="4" fill="#27AE60"/>
+  <text x="246" y="222" font-family="Arial,sans-serif" font-size="13" fill="#7BAFD4">Multi-level approval workflows</text>
+  <circle cx="235" cy="240" r="4" fill="#F39C12"/>
+  <text x="246" y="244" font-family="Arial,sans-serif" font-size="13" fill="#7BAFD4">Onboarding checklists + candidate portal</text>
+  <rect x="520" y="222" width="120" height="36" rx="18" fill="#2387E8"/>
+  <text x="580" y="245" font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="white" text-anchor="middle">Get it free</text>
+</svg>
