@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_hr_job_form_inherit" model="ir.ui.view">
+            <field name="name">hr.job.form.recruitment.onboarding</field>
+            <field name="model">hr.job</field>
+            <field name="priority">99</field>
+            <field name="arch" type="xml">
+                <form string="Job Position">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                        </div>
+                        <div class="oe_title">
+                            <label for="name"/>
+                            <h1><field name="name" placeholder="Job Position"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="department_id"/>
+                                <field name="company_id" groups="base.group_multi_company"/>
+                                <field name="user_id"/>
+                            </group>
+                            <group>
+                                <field name="no_of_recruitment"/>
+                                <field name="expected_employees"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Social Media &amp; AI" name="social_ai">
+                                <group string="AI Candidate Screening">
+                                    <field name="ai_screening_enabled"/>
+                                    <field name="min_ai_score"
+                                           invisible="not ai_screening_enabled"/>
+                                    <field name="required_skills_text"
+                                           invisible="not ai_screening_enabled"
+                                           placeholder="e.g. Python, Django, REST APIs, 3+ years experience"/>
+                                </group>
+                                <group string="Social Media Posting">
+                                    <div colspan="2" class="text-muted">
+                                        <p>To post this job on social media:</p>
+                                        <ol>
+                                            <li>Enable the Published toggle on this job</li>
+                                            <li>Copy the job URL from "Go to Website" button</li>
+                                            <li>Post manually on LinkedIn, Naukri, Indeed, Facebook</li>
+                                        </ol>
+                                    </div>
+                                </group>
+                            </page>
+                            <page string="Job Details" name="job_details">
+                                <group string="Compensation">
+                                    <field name="salary_min"/>
+                                    <field name="salary_max"/>
+                                    <field name="currency_id"/>
+                                </group>
+                                <group string="Position Info">
+                                    <field name="employment_type"/>
+                                    <field name="work_mode"/>
+                                    <field name="application_deadline"/>
+                                </group>
+                                <group string="Headcount Approval">
+                                    <field name="headcount_approved" readonly="1"/>
+                                    <field name="headcount_approval_id" readonly="1"/>
+                                    <div colspan="2" invisible="headcount_approved == True">
+                                        <button name="action_request_headcount_approval"
+                                                type="object"
+                                                string="Request Headcount Approval"
+                                                class="btn btn-primary"/>
+                                    </div>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Form view inherit only — no list/kanban inherits to avoid broken IDs -->
+        <record id="view_hr_applicant_form_inherit" model="ir.ui.view">
+            <field name="name">hr.applicant.form.recruitment.onboarding</field>
+            <field name="model">hr.applicant</field>
+            <field name="inherit_id" ref="hr_recruitment.hr_applicant_view_form"/>
+            <field name="arch" type="xml">
+
+                <!-- Smart buttons -->
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="action_view_interviews"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-calendar">
+                        <field name="interview_count" widget="statinfo" string="Interviews"/>
+                    </button>
+                    <button name="action_view_onboarding"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-list-check"
+                            invisible="not onboarding_id">
+                        <div class="o_stat_info">
+                            <span class="o_stat_text">Onboarding</span>
+                        </div>
+                    </button>
+                </xpath>
+
+                <!-- Source channel + LinkedIn after partner_name -->
+                <xpath expr="//field[@name='partner_name']" position="after">
+                    <field name="source_channel"/>
+                    <field name="linkedin_profile" widget="url"
+                           placeholder="https://linkedin.com/in/..."/>
+                </xpath>
+
+                <!-- Add our tabs at end of notebook -->
+                <xpath expr="//notebook" position="inside">
+
+                    <page string="AI Evaluation" name="ai_evaluation">
+                        <group>
+                            <field name="ai_score" readonly="1"/>
+                            <field name="ai_score_label" readonly="1"/>
+                            <field name="ai_scored_date" readonly="1"/>
+                            <field name="ai_score_provider" readonly="1"/>
+                        </group>
+                        <field name="ai_score_details" readonly="1"
+                               widget="text" nolabel="1"
+                               placeholder="Run AI scoring to see evaluation details..."/>
+                        <div class="mt-3">
+                            <button name="action_compute_ai_score"
+                                    type="object"
+                                    string="Run AI Scoring Now"
+                                    class="btn btn-primary"/>
+                        </div>
+                    </page>
+
+                    <page string="Offer" name="offer_tab">
+                        <group string="Offer Details">
+                            <field name="offer_salary"/>
+                            <field name="currency_id"/>
+                            <field name="offer_joining_date"/>
+                            <field name="offer_expiry_date"/>
+                            <field name="offer_state" readonly="1"/>
+                        </group>
+                        <group string="Approval">
+                            <field name="approval_state" readonly="1"/>
+                            <field name="approval_request_id" readonly="1"/>
+                        </group>
+                        <div class="mt-3">
+                            <button name="action_request_approval"
+                                    type="object"
+                                    string="Request Offer Approval"
+                                    class="btn btn-primary"
+                                    invisible="approval_request_id != False"/>
+                            <button name="action_send_offer"
+                                    type="object"
+                                    string="Send Offer to Candidate"
+                                    class="btn btn-success"
+                                    invisible="approval_state != 'approved'"/>
+                        </div>
+                    </page>
+
+                </xpath>
+
+            </field>
+        </record>
+
+        <!-- Action for approvals -->
+        <record id="action_hr_recruitment_approval" model="ir.actions.act_window">
+            <field name="name">Recruitment Approvals</field>
+            <field name="res_model">hr.recruitment.approval</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+    </data>
+</odoo>

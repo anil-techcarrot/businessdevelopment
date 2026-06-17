@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_report_offer_letter" model="ir.actions.report">
+            <field name="name">Offer Letter</field>
+            <field name="model">hr.applicant</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">hr_recruitment_onboarding.report_offer_letter</field>
+            <field name="report_file">hr_recruitment_onboarding.report_offer_letter</field>
+            <field name="binding_model_id" ref="hr_recruitment.model_hr_applicant"/>
+            <field name="binding_type">report</field>
+        </record>
+        <template id="report_offer_letter">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <h2>OFFER LETTER</h2>
+                            <p>Dear <strong><t t-esc="doc.partner_name"/></strong>,</p>
+                            <p>We are pleased to offer you the position of
+                            <strong><t t-esc="doc.job_id.name"/></strong> at
+                            <strong><t t-esc="doc.company_id.name"/></strong>.</p>
+                            <t t-if="doc.offer_salary">
+                                <p><strong>Salary:</strong>
+                                <t t-esc="doc.currency_id.symbol"/>
+                                <t t-esc="'{:,.2f}'.format(doc.offer_salary)"/></p>
+                            </t>
+                            <t t-if="doc.offer_joining_date">
+                                <p><strong>Start Date:</strong>
+                                <t t-esc="doc.offer_joining_date.strftime('%d %B %Y')"/></p>
+                            </t>
+                            <p>We look forward to welcoming you!</p>
+                            <br/><br/>
+                            <p>HR Team<br/><t t-esc="doc.company_id.name"/></p>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

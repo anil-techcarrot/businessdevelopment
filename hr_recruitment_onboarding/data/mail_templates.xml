@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- ═══════════════════════════════════════════════════════
+             Application received – auto-reply to candidate
+        ══════════════════════════════════════════════════════════ -->
+        <record id="email_template_application_received" model="mail.template">
+            <field name="name">Application Received – Candidate Auto-Reply</field>
+            <field name="model_id" ref="hr_recruitment.model_hr_applicant"/>
+            <field name="subject">We received your application – {{ object.job_id.name }}</field>
+            <field name="email_to">{{ object.partner_id.email or object.email_from }}</field>
+            <field name="body_html"><![CDATA[
+<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+    <h2 style="color: #2c6fad;">Thank you for applying!</h2>
+    <p>Dear {{ object.partner_name or 'Candidate' }},</p>
+    <p>We have received your application for the position of <strong>{{ object.job_id.name }}</strong>
+    at <strong>{{ object.company_id.name }}</strong>.</p>
+    <p>Our HR team will review your application and get back to you shortly.
+    You can track your application status at any time using the link below:</p>
+    <p style="text-align: center; margin: 24px 0;">
+        <a href="{{ object.get_portal_url() }}"
+           style="background: #2c6fad; color: white; padding: 12px 28px;
+                  text-decoration: none; border-radius: 4px; font-weight: bold;">
+            Track My Application
+        </a>
+    </p>
+    <p>Best regards,<br/>{{ object.company_id.name }} HR Team</p>
+</div>
+            ]]></field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <!-- ═══════════════════════════════════════════════════════
+             Stage change notification to candidate
+        ══════════════════════════════════════════════════════════ -->
+        <record id="email_template_stage_change" model="mail.template">
+            <field name="name">Application Stage Change – Candidate Notification</field>
+            <field name="model_id" ref="hr_recruitment.model_hr_applicant"/>
+            <field name="subject">Update on your application – {{ object.job_id.name }}</field>
+            <field name="email_to">{{ object.partner_id.email or object.email_from }}</field>
+            <field name="body_html"><![CDATA[
+<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+    <h2 style="color: #2c6fad;">Application Update</h2>
+    <p>Dear {{ object.partner_name or 'Candidate' }},</p>
+    <p>Your application for <strong>{{ object.job_id.name }}</strong> has moved to a new stage:
+    <strong>{{ object.stage_id.name }}</strong>.</p>
+    <p><a href="{{ object.get_portal_url() }}">View your application status →</a></p>
+    <p>Best regards,<br/>{{ object.company_id.name }} HR Team</p>
+</div>
+            ]]></field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <!-- ═══════════════════════════════════════════════════════
+             Offer approved – send to candidate
+        ══════════════════════════════════════════════════════════ -->
+        <record id="email_template_offer_approved" model="mail.template">
+            <field name="name">Offer Letter – Candidate</field>
+            <field name="model_id" ref="hr_recruitment.model_hr_applicant"/>
+            <field name="subject">Job Offer – {{ object.job_id.name }} at {{ object.company_id.name }}</field>
+            <field name="email_to">{{ object.partner_id.email or object.email_from }}</field>
+            <field name="body_html"><![CDATA[
+<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+    <h2 style="color: #27ae60;">🎉 Congratulations! You've received a job offer!</h2>
+    <p>Dear {{ object.partner_name }},</p>
+    <p>We are pleased to offer you the position of <strong>{{ object.job_id.name }}</strong>
+    at <strong>{{ object.company_id.name }}</strong>.</p>
+    {% if object.offer_salary %}
+    <p><strong>Offered Salary:</strong> {{ object.currency_id.symbol }}{{ '{:,.0f}'.format(object.offer_salary) }}</p>
+    {% endif %}
+    {% if object.offer_joining_date %}
+    <p><strong>Proposed Start Date:</strong> {{ object.offer_joining_date.strftime('%d %B %Y') }}</p>
+    {% endif %}
+    {% if object.offer_expiry_date %}
+    <p><strong>Offer Valid Until:</strong> {{ object.offer_expiry_date.strftime('%d %B %Y') }}</p>
+    {% endif %}
+    <p style="text-align: center; margin: 24px 0;">
+        <a href="{{ object.get_portal_url() }}"
+           style="background: #27ae60; color: white; padding: 12px 28px;
+                  text-decoration: none; border-radius: 4px; font-weight: bold;">
+            Accept or Decline Offer
+        </a>
+    </p>
+    <p>We look forward to welcoming you to the team!</p>
+    <p>Best regards,<br/>{{ object.company_id.name }} HR Team</p>
+</div>
+            ]]></field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <!-- ═══════════════════════════════════════════════════════
+             Onboarding welcome email to new employee
+        ══════════════════════════════════════════════════════════ -->
+        <record id="email_template_onboarding_welcome" model="mail.template">
+            <field name="name">Onboarding Welcome – New Employee</field>
+            <field name="model_id" ref="model_hr_onboarding"/>
+            <field name="subject">Welcome to {{ object.employee_id.company_id.name }}! Your onboarding starts today</field>
+            <field name="email_to">{{ object.employee_id.work_email }}</field>
+            <field name="body_html"><![CDATA[
+<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+    <h2 style="color: #2c6fad;">Welcome to the team, {{ object.employee_id.name }}! 🎉</h2>
+    <p>We're thrilled to have you on board as our new
+    <strong>{{ object.job_id.name }}</strong>.</p>
+    <p>Your onboarding plan has been set up with {{ object.task_count }} tasks to help you
+    settle in smoothly.</p>
+    {% if object.buddy_id %}
+    <p>Your <strong>Onboarding Buddy</strong> is {{ object.buddy_id.name }}.
+    Don't hesitate to reach out to them for any questions!</p>
+    {% endif %}
+    <h3>Your first week checklist includes:</h3>
+    <ul>
+    {% for task in object.task_ids[:5] %}
+        <li>{{ task.name }} <em>(due: {{ task.due_date }})</em></li>
+    {% endfor %}
+    </ul>
+    <p>Best regards,<br/>{{ object.employee_id.company_id.name }} HR Team</p>
+</div>
+            ]]></field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+    </data>
+</odoo>

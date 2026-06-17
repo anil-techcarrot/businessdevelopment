@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- ═══════════════════════════════════════════════════════
+             Sequence for Approval Reference
+        ══════════════════════════════════════════════════════════ -->
+        <record id="seq_recruitment_approval" model="ir.sequence">
+            <field name="name">Recruitment Approval Reference</field>
+            <field name="code">hr_recruitment_onboarding.seq_recruitment_approval</field>
+            <field name="prefix">APPR/%(year)s/</field>
+            <field name="padding">4</field>
+        </record>
+
+        <!-- ═══════════════════════════════════════════════════════
+             Default Onboarding Task Templates (all departments)
+        ══════════════════════════════════════════════════════════ -->
+        <record id="tmpl_email_account" model="hr.onboarding.task.template">
+            <field name="name">Create company email account</field>
+            <field name="category">it</field>
+            <field name="responsible_role">it_team</field>
+            <field name="due_days">1</field>
+            <field name="sequence">10</field>
+            <field name="mandatory" eval="True"/>
+        </record>
+
+        <record id="tmpl_system_access" model="hr.onboarding.task.template">
+            <field name="name">Grant system and application access</field>
+            <field name="category">it</field>
+            <field name="responsible_role">it_team</field>
+            <field name="due_days">1</field>
+            <field name="sequence">20</field>
+            <field name="mandatory" eval="True"/>
+        </record>
+
+        <record id="tmpl_contract_sign" model="hr.onboarding.task.template">
+            <field name="name">Sign employment contract</field>
+            <field name="category">legal</field>
+            <field name="responsible_role">hr</field>
+            <field name="due_days">1</field>
+            <field name="sequence">30</field>
+            <field name="mandatory" eval="True"/>
+        </record>
+
+        <record id="tmpl_nda" model="hr.onboarding.task.template">
+            <field name="name">Sign NDA and confidentiality agreement</field>
+            <field name="category">legal</field>
+            <field name="responsible_role">hr</field>
+            <field name="due_days">2</field>
+            <field name="sequence">40</field>
+            <field name="mandatory" eval="True"/>
+        </record>
+
+        <record id="tmpl_policies" model="hr.onboarding.task.template">
+            <field name="name">Read and acknowledge company policies</field>
+            <field name="category">legal</field>
+            <field name="responsible_role">employee</field>
+            <field name="due_days">3</field>
+            <field name="sequence">50</field>
+            <field name="mandatory" eval="True"/>
+        </record>
+
+        <record id="tmpl_office_tour" model="hr.onboarding.task.template">
+            <field name="name">Office tour and introductions with buddy</field>
+            <field name="category">admin</field>
+            <field name="responsible_role">buddy</field>
+            <field name="due_days">1</field>
+            <field name="sequence">60</field>
+        </record>
+
+        <record id="tmpl_workstation" model="hr.onboarding.task.template">
+            <field name="name">Set up workstation, laptop and tools</field>
+            <field name="category">it</field>
+            <field name="responsible_role">it_team</field>
+            <field name="due_days">2</field>
+            <field name="sequence">70</field>
+            <field name="mandatory" eval="True"/>
+        </record>
+
+        <record id="tmpl_payroll" model="hr.onboarding.task.template">
+            <field name="name">Add employee to payroll</field>
+            <field name="category">payroll</field>
+            <field name="responsible_role">hr</field>
+            <field name="due_days">1</field>
+            <field name="sequence">80</field>
+            <field name="mandatory" eval="True"/>
+        </record>
+
+        <record id="tmpl_dept_overview" model="hr.onboarding.task.template">
+            <field name="name">Department overview meeting with manager</field>
+            <field name="category">training</field>
+            <field name="responsible_role">manager</field>
+            <field name="due_days">3</field>
+            <field name="sequence">90</field>
+        </record>
+
+        <record id="tmpl_compliance" model="hr.onboarding.task.template">
+            <field name="name">Complete mandatory compliance training</field>
+            <field name="category">training</field>
+            <field name="responsible_role">employee</field>
+            <field name="due_days">7</field>
+            <field name="sequence">100</field>
+            <field name="mandatory" eval="True"/>
+        </record>
+
+        <record id="tmpl_30day" model="hr.onboarding.task.template">
+            <field name="name">30-day check-in with HR and manager</field>
+            <field name="category">review</field>
+            <field name="responsible_role">manager</field>
+            <field name="due_days">30</field>
+            <field name="sequence">110</field>
+        </record>
+
+        <record id="tmpl_probation" model="hr.onboarding.task.template">
+            <field name="name">90-day probation review</field>
+            <field name="category">review</field>
+            <field name="responsible_role">manager</field>
+            <field name="due_days">90</field>
+            <field name="sequence">120</field>
+            <field name="mandatory" eval="True"/>
+        </record>
+
+    </data>
+</odoo>

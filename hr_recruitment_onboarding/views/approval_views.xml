@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_hr_recruitment_approval_form" model="ir.ui.view">
+            <field name="name">hr.recruitment.approval.form</field>
+            <field name="model">hr.recruitment.approval</field>
+            <field name="arch" type="xml">
+                <form string="Recruitment Approval">
+                    <header>
+                        <button name="action_submit" string="Submit for Approval"
+                                type="object" class="btn-primary"
+                                invisible="state != 'draft'"/>
+                        <button name="action_approve" string="Approve"
+                                type="object" class="btn-success"
+                                invisible="state != 'pending'"/>
+                        <button name="action_refuse" string="Refuse"
+                                type="object" class="btn-danger"
+                                invisible="state != 'pending'"/>
+                        <button name="action_cancel" string="Cancel"
+                                type="object"
+                                invisible="state in ['approved','refused','cancelled']"/>
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="draft,pending,approved"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group string="Details">
+                                <field name="name" readonly="1"/>
+                                <field name="approval_type"/>
+                                <field name="job_id"/>
+                                <field name="applicant_id"
+                                       invisible="approval_type != 'offer'"/>
+                                <field name="department_id" readonly="1"/>
+                            </group>
+                            <group string="Offer">
+                                <field name="offered_salary"
+                                       invisible="approval_type != 'offer'"/>
+                                <field name="currency_id"/>
+                                <field name="deadline"/>
+                            </group>
+                        </group>
+                        <field name="reason"
+                               placeholder="Justification for this request..."/>
+                        <separator string="Approval Chain"/>
+                        <field name="approver_ids">
+                            <list editable="bottom">
+                                <field name="role"/>
+                                <field name="approver_id"/>
+                                <field name="state" widget="badge"
+                                       decoration-success="state == 'approved'"
+                                       decoration-danger="state == 'refused'"/>
+                                <field name="approved_date" readonly="1"/>
+                                <field name="notes"/>
+                            </list>
+                        </field>
+                        <div class="alert alert-danger" role="alert"
+                             invisible="not refused_reason">
+                            <strong>Refused:</strong>
+                            <field name="refused_reason" readonly="1" nolabel="1"/>
+                        </div>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_hr_recruitment_approval_list" model="ir.ui.view">
+            <field name="name">hr.recruitment.approval.list</field>
+            <field name="model">hr.recruitment.approval</field>
+            <field name="arch" type="xml">
+                <list string="Approvals"
+                      decoration-success="state == 'approved'"
+                      decoration-danger="state == 'refused'"
+                      decoration-warning="state == 'pending'">
+                    <field name="name"/>
+                    <field name="approval_type"/>
+                    <field name="job_id"/>
+                    <field name="applicant_id"/>
+                    <field name="offered_salary"/>
+                    <field name="deadline"/>
+                    <field name="state" widget="badge"/>
+                </list>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="website_jobs_list" name="Job Listings">
+            <t t-call="website.layout">
+                <div class="container py-5">
+                    <h1 class="mb-1">We're Hiring!</h1>
+                    <p class="text-muted mb-4">Join our team — explore open positions below.</p>
+
+                    <t t-if="not jobs">
+                        <div class="alert alert-info">No open positions at the moment. Check back soon!</div>
+                    </t>
+
+                    <div class="row row-cols-1 row-cols-md-2 g-4">
+                        <t t-foreach="jobs" t-as="job">
+                            <div class="col">
+                                <div class="card h-100 shadow-sm">
+                                    <div class="card-body">
+                                        <h5 class="card-title mb-1">
+                                            <a t-attf-href="/jobs/#{job.id}">
+                                                <t t-esc="job.name"/>
+                                            </a>
+                                        </h5>
+                                        <p class="text-muted small mb-2">
+                                            <t t-esc="job.department_id.name"/>
+                                        </p>
+                                        <t t-if="job.application_deadline">
+                                            <p class="small text-muted">
+                                                Apply by: <t t-esc="job.application_deadline.strftime('%d %b %Y')"/>
+                                            </p>
+                                        </t>
+                                    </div>
+                                    <div class="card-footer bg-transparent">
+                                        <a t-attf-href="/jobs/#{job.id}"
+                                           class="btn btn-primary btn-sm">Apply Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <template id="website_job_detail" name="Job Detail">
+            <t t-call="website.layout">
+                <div class="container py-5" style="max-width: 800px;">
+                    <a href="/jobs" class="text-muted small">All Jobs</a>
+                    <h1 class="mt-2 mb-1"><t t-esc="job.name"/></h1>
+                    <div class="d-flex flex-wrap gap-2 mb-4">
+                        <span class="badge bg-primary"><t t-esc="job.department_id.name"/></span>
+                    </div>
+
+                    <t t-if="job.description">
+                        <div class="card shadow-sm mb-4">
+                            <div class="card-body">
+                                <t t-raw="job.description"/>
+                            </div>
+                        </div>
+                    </t>
+
+                    <div class="card shadow-sm">
+                        <div class="card-header"><strong>Apply for this position</strong></div>
+                        <div class="card-body">
+                            <form t-attf-action="/jobs/#{job.id}/apply" method="POST"
+                                  enctype="multipart/form-data">
+                                <input type="hidden" name="csrf_token"
+                                       t-att-value="request.csrf_token()"/>
+                                <div class="mb-3">
+                                    <label class="form-label">Full Name *</label>
+                                    <input type="text" name="candidate_name"
+                                           class="form-control" required="1"/>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Email Address *</label>
+                                    <input type="email" name="email"
+                                           class="form-control" required="1"/>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Phone Number</label>
+                                    <input type="tel" name="phone" class="form-control"/>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">LinkedIn Profile URL</label>
+                                    <input type="url" name="linkedin_url"
+                                           class="form-control"
+                                           placeholder="https://linkedin.com/in/..."/>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Upload Resume / CV</label>
+                                    <input type="file" name="resume" class="form-control"
+                                           accept=".pdf,.doc,.docx"/>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Cover Letter</label>
+                                    <textarea name="cover_letter" class="form-control"
+                                              rows="5"
+                                              placeholder="Tell us why you are a great fit..."/>
+                                </div>
+                                <button type="submit" class="btn btn-primary">
+                                    Submit Application
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+    </data>
+</odoo>

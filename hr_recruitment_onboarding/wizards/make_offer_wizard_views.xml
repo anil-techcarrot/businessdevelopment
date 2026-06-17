@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_make_offer_wizard_form" model="ir.ui.view">
+            <field name="name">hr.recruitment.offer.wizard.form</field>
+            <field name="model">hr.recruitment.offer.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Send Offer to Candidate">
+                    <group>
+                        <group string="Candidate">
+                            <field name="candidate_name" readonly="1"/>
+                            <field name="job_name" readonly="1"/>
+                            <field name="email_to"/>
+                        </group>
+                        <group string="Offer Details">
+                            <field name="offered_salary"/>
+                            <field name="currency_id"/>
+                            <field name="joining_date"/>
+                            <field name="offer_expiry"/>
+                            <field name="require_approval"/>
+                        </group>
+                    </group>
+                    <field name="subject" placeholder="Email subject..."/>
+                    <field name="body_html" widget="html"/>
+                    <footer>
+                        <button name="action_send" string="Send Offer"
+                                type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary"
+                                special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

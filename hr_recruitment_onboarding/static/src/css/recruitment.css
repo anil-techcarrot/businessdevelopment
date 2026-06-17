@@ -1,0 +1,33 @@
+/* hr_recruitment_onboarding/static/src/css/recruitment.css */
+
+/* AI Score badge color coding */
+.badge_ai_excellent { background: #27ae60 !important; color: white; }
+.badge_ai_good      { background: #2c6fad !important; color: white; }
+.badge_ai_average   { background: #f39c12 !important; color: white; }
+.badge_ai_poor      { background: #e74c3c !important; color: white; }
+
+/* Kanban card AI score widget */
+.o_kanban_record .ai_score_pill {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-top: 4px;
+}
+
+/* Onboarding progress ring */
+.onboarding_progress_ring {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Social post status indicator */
+.social_posted_badge {
+    color: #27ae60;
+    font-size: 12px;
+}
+.social_posted_badge::before {
+    content: "✓ Posted";
+}

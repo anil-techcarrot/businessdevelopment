@@ -1,0 +1,41 @@
+/* hr_recruitment_onboarding/static/src/css/portal.css */
+
+/* Application status progress bar */
+.application-stage-bar {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    padding-bottom: 4px;
+}
+
+.application-stage-bar .stage-item {
+    flex: 1;
+    min-width: 80px;
+    text-align: center;
+    padding: 8px 4px;
+    font-size: 11px;
+    font-weight: 600;
+    border-top: 3px solid #dee2e6;
+    color: #6c757d;
+    white-space: nowrap;
+}
+
+.application-stage-bar .stage-item.active {
+    border-top-color: #2c6fad;
+    color: #2c6fad;
+}
+
+.application-stage-bar .stage-item.done {
+    border-top-color: #27ae60;
+    color: #27ae60;
+}
+
+/* Onboarding task list */
+.onboarding-task-done {
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+
+.onboarding-task-overdue {
+    border-left: 3px solid #e74c3c;
+}

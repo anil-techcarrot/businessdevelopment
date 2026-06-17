@@ -1,0 +1,15 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_onboarding_user,hr.onboarding user,model_hr_onboarding,group_hr_recruitment_user,1,0,0,0
+access_hr_onboarding_officer,hr.onboarding officer,model_hr_onboarding,group_hr_recruitment_officer,1,1,1,0
+access_hr_onboarding_manager,hr.onboarding manager,model_hr_onboarding,group_hr_manager,1,1,1,1
+access_hr_onboarding_task_user,hr.onboarding.task user,model_hr_onboarding_task,group_hr_recruitment_user,1,1,0,0
+access_hr_onboarding_task_officer,hr.onboarding.task officer,model_hr_onboarding_task,group_hr_recruitment_officer,1,1,1,0
+access_hr_onboarding_task_manager,hr.onboarding.task manager,model_hr_onboarding_task,group_hr_manager,1,1,1,1
+access_hr_onboarding_task_template_officer,hr.onboarding.task.template officer,model_hr_onboarding_task_template,group_hr_recruitment_officer,1,1,1,0
+access_hr_onboarding_task_template_manager,hr.onboarding.task.template manager,model_hr_onboarding_task_template,group_hr_manager,1,1,1,1
+access_hr_recruitment_approval_user,hr.recruitment.approval user,model_hr_recruitment_approval,group_hr_recruitment_user,1,0,0,0
+access_hr_recruitment_approval_officer,hr.recruitment.approval officer,model_hr_recruitment_approval,group_hr_recruitment_officer,1,1,1,0
+access_hr_recruitment_approval_manager,hr.recruitment.approval manager,model_hr_recruitment_approval,group_hr_manager,1,1,1,1
+access_hr_recruitment_approval_line_officer,hr.recruitment.approval.line officer,model_hr_recruitment_approval_line,group_hr_recruitment_officer,1,1,1,0
+access_hr_recruitment_approval_line_manager,hr.recruitment.approval.line manager,model_hr_recruitment_approval_line,group_hr_manager,1,1,1,1
+access_hr_recruitment_refuse_wizard,hr.recruitment.refuse.wizard,model_hr_recruitment_refuse_wizard,group_hr_recruitment_officer,1,1,1,1

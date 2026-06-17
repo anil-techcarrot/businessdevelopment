@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- hr.onboarding Form -->
+        <record id="view_hr_onboarding_form" model="ir.ui.view">
+            <field name="name">hr.onboarding.form</field>
+            <field name="model">hr.onboarding</field>
+            <field name="arch" type="xml">
+                <form string="Onboarding Plan">
+                    <header>
+                        <button name="action_start" string="Start Onboarding"
+                                type="object" class="btn-primary"
+                                invisible="state != 'draft'"/>
+                        <button name="action_done" string="Mark Complete"
+                                type="object" class="btn-success"
+                                invisible="state != 'in_progress'"/>
+                        <button name="action_cancel" string="Cancel"
+                                type="object"
+                                invisible="state in ['done','cancelled']"/>
+                        <button name="action_reset_draft" string="Reset to Draft"
+                                type="object"
+                                invisible="state != 'cancelled'"/>
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="draft,in_progress,done"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1><field name="name" readonly="1"/></h1>
+                        </div>
+                        <group>
+                            <group string="Employee">
+                                <field name="employee_id" required="1"/>
+                                <field name="job_id"/>
+                                <field name="department_id"/>
+                                <field name="applicant_id" readonly="1"/>
+                            </group>
+                            <group string="Plan Details">
+                                <field name="start_date"/>
+                                <field name="end_date"/>
+                                <field name="buddy_id"/>
+                                <field name="hr_responsible_id"/>
+                                <field name="progress" widget="progressbar"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Tasks" name="tasks">
+                                <field name="task_ids">
+                                    <list editable="bottom"
+                                          decoration-danger="is_overdue"
+                                          decoration-success="state == 'done'"
+                                          decoration-muted="state == 'skipped'">
+                                        <field name="name"/>
+                                        <field name="category"/>
+                                        <field name="responsible_role"/>
+                                        <field name="assigned_to_id" optional="show"/>
+                                        <field name="due_date"/>
+                                        <field name="state"/>
+                                        <field name="mandatory"/>
+                                        <field name="is_overdue" column_invisible="True"/>
+                                        <button name="action_done" type="object"
+                                                string="Done" class="btn btn-sm btn-success"
+                                                invisible="state == 'done'"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Welcome Message" name="notes">
+                                <field name="notes" widget="html"
+                                       placeholder="Welcome message..."/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- hr.onboarding List -->
+        <record id="view_hr_onboarding_list" model="ir.ui.view">
+            <field name="name">hr.onboarding.list</field>
+            <field name="model">hr.onboarding</field>
+            <field name="arch" type="xml">
+                <list string="Onboarding Plans"
+                      decoration-success="state == 'done'"
+                      decoration-info="state == 'in_progress'"
+                      decoration-muted="state == 'cancelled'">
+                    <field name="name"/>
+                    <field name="employee_id"/>
+                    <field name="department_id"/>
+                    <field name="start_date"/>
+                    <field name="progress" widget="progressbar"/>
+                    <field name="task_done_count" string="Done"/>
+                    <field name="task_count" string="Total"/>
+                    <field name="state" widget="badge"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- hr.onboarding.task List -->
+        <record id="view_hr_onboarding_task_list" model="ir.ui.view">
+            <field name="name">hr.onboarding.task.list</field>
+            <field name="model">hr.onboarding.task</field>
+            <field name="arch" type="xml">
+                <list string="Onboarding Tasks"
+                      decoration-danger="is_overdue"
+                      decoration-success="state == 'done'"
+                      decoration-muted="state == 'skipped'">
+                    <field name="onboarding_id"/>
+                    <field name="name"/>
+                    <field name="category"/>
+                    <field name="responsible_role"/>
+                    <field name="assigned_to_id"/>
+                    <field name="due_date"/>
+                    <field name="state" widget="badge"/>
+                    <field name="is_overdue" column_invisible="True"/>
+                    <button name="action_start" type="object" string="Start"
+                            class="btn btn-sm btn-info"
+                            invisible="state != 'pending'"/>
+                    <button name="action_done" type="object" string="Done"
+                            class="btn btn-sm btn-success"
+                            invisible="state in ['done','skipped']"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- hr.onboarding.task.template List -->
+        <record id="view_hr_onboarding_task_template_list" model="ir.ui.view">
+            <field name="name">hr.onboarding.task.template.list</field>
+            <field name="model">hr.onboarding.task.template</field>
+            <field name="arch" type="xml">
+                <list string="Task Templates" editable="top">
+                    <field name="name"/>
+                    <field name="department_id"/>
+                    <field name="category"/>
+                    <field name="responsible_role"/>
+                    <field name="due_days"/>
+                    <field name="mandatory"/>
+                </list>
+            </field>
+        </record>
+
+    </data>
+</odoo>

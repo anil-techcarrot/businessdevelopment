@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Candidate Application Status Portal -->
+        <template id="portal_application_status" name="Application Status">
+            <t t-call="website.layout">
+                <div class="container py-5" style="max-width: 720px;">
+
+                    <t t-if="request.params.get('accepted')">
+                        <div class="alert alert-success">
+                            You have <strong>accepted</strong> the offer! Our HR team will contact you shortly.
+                        </div>
+                    </t>
+                    <t t-if="request.params.get('declined')">
+                        <div class="alert alert-warning">
+                            Your offer has been <strong>declined</strong>. Thank you for your time.
+                        </div>
+                    </t>
+
+                    <div class="card shadow-sm mb-4">
+                        <div class="card-body">
+                            <h2 class="mb-1">
+                                <t t-esc="applicant.partner_name"/>'s Application
+                            </h2>
+                            <p class="text-muted mb-0">
+                                Position: <strong><t t-esc="applicant.job_id.name"/></strong>
+                                | Company: <strong><t t-esc="applicant.company_id.name"/></strong>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Stage Progress -->
+                    <div class="card shadow-sm mb-4">
+                        <div class="card-header"><strong>Application Progress</strong></div>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between flex-wrap gap-2">
+                                <t t-foreach="stages" t-as="stage">
+                                    <div class="text-center flex-fill"
+                                         t-attf-style="border-top: 3px solid #{stage.id == applicant.stage_id.id and '#2c6fad' or '#dee2e6'}; padding: 8px 4px; font-size: 12px;">
+                                        <t t-esc="stage.name"/>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Offer section -->
+                    <t t-if="applicant.offer_state == 'sent'">
+                        <div class="card shadow-sm mb-4 border-success">
+                            <div class="card-header bg-success text-white">
+                                <strong>You have received a job offer!</strong>
+                            </div>
+                            <div class="card-body">
+                                <t t-if="applicant.offer_salary">
+                                    <p><strong>Offered Salary:</strong>
+                                        <t t-esc="applicant.currency_id.symbol"/>
+                                        <t t-esc="'{:,.0f}'.format(applicant.offer_salary)"/>
+                                    </p>
+                                </t>
+                                <t t-if="applicant.offer_joining_date">
+                                    <p><strong>Proposed Start Date:</strong>
+                                        <t t-esc="applicant.offer_joining_date.strftime('%d %B %Y')"/>
+                                    </p>
+                                </t>
+                                <div class="d-flex gap-2 mt-3">
+                                    <form t-attf-action="/jobs/application/#{applicant.id}/#{applicant.access_token}/accept" method="POST">
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                        <button type="submit" class="btn btn-success">Accept Offer</button>
+                                    </form>
+                                    <button type="button" class="btn btn-outline-danger"
+                                            data-bs-toggle="collapse" data-bs-target="#declineForm">
+                                        Decline
+                                    </button>
+                                </div>
+                                <div id="declineForm" class="collapse mt-3">
+                                    <form t-attf-action="/jobs/application/#{applicant.id}/#{applicant.access_token}/decline" method="POST">
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                        <div class="mb-2">
+                                            <label>Reason (optional):</label>
+                                            <textarea name="reason" class="form-control" rows="2"></textarea>
+                                        </div>
+                                        <button type="submit" class="btn btn-danger">Confirm Decline</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+
+                </div>
+            </t>
+        </template>
+
+        <!-- Employee Onboarding Self-Service -->
+        <template id="portal_onboarding" name="My Onboarding">
+            <t t-call="website.layout">
+                <div class="container py-5" style="max-width: 800px;">
+                    <h1 class="mb-1">Welcome, <t t-esc="employee.name"/>!</h1>
+                    <p class="text-muted">Here is your onboarding checklist.</p>
+
+                    <t t-if="not onboarding">
+                        <div class="alert alert-info">No onboarding plan found. Contact HR.</div>
+                    </t>
+
+                    <t t-if="onboarding">
+                        <div class="card shadow-sm mb-4">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <strong>Overall Progress</strong>
+                                    <span><t t-esc="int(onboarding.progress)"/>%</span>
+                                </div>
+                                <div class="progress" style="height: 12px;">
+                                    <div class="progress-bar bg-success"
+                                         t-attf-style="width: #{int(onboarding.progress)}%"/>
+                                </div>
+                                <div class="text-muted small mt-1">
+                                    <t t-esc="onboarding.task_done_count"/> of
+                                    <t t-esc="onboarding.task_count"/> tasks completed
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card shadow-sm">
+                            <div class="card-header"><strong>Your Tasks</strong></div>
+                            <ul class="list-group list-group-flush">
+                                <t t-foreach="onboarding.task_ids" t-as="task">
+                                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <strong><t t-esc="task.name"/></strong>
+                                            <div class="text-muted small">
+                                                Due: <t t-esc="task.due_date"/>
+                                            </div>
+                                        </div>
+                                        <t t-if="task.state == 'done'">
+                                            <span class="badge bg-success">Done</span>
+                                        </t>
+                                        <t t-elif="task.responsible_role == 'employee'">
+                                            <button class="btn btn-sm btn-outline-success mark-done-btn"
+                                                    t-att-data-task-id="task.id">
+                                                Mark Done
+                                            </button>
+                                        </t>
+                                        <t t-else="">
+                                            <span class="badge bg-warning text-dark">Pending</span>
+                                        </t>
+                                    </li>
+                                </t>
+                            </ul>
+                        </div>
+                    </t>
+                </div>
+                <script>
+                    document.querySelectorAll('.mark-done-btn').forEach(btn => {
+                        btn.addEventListener('click', async () => {
+                            const taskId = parseInt(btn.dataset.taskId);
+                            const res = await fetch('/onboarding/task/' + taskId + '/done', {
+                                method: 'POST',
+                                headers: {'Content-Type': 'application/json'},
+                                body: JSON.stringify({jsonrpc: '2.0', method: 'call', params: {}})
+                            });
+                            const data = await res.json();
+                            if (data.result &amp;&amp; data.result.success) {
+                                window.location.reload();
+                            }
+                        });
+                    });
+                </script>
+            </t>
+        </template>
+
+    </data>
+</odoo>
